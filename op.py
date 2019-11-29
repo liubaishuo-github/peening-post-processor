@@ -91,7 +91,7 @@ def SPINDLE(apt):
 
 def SUBPROG(apt):
     sub = 'M98P' + re.search('\d+', apt).group()
-    return 1, sub
+    return 2, [' ', sub]
 
 def GOHOME(apt):
     a = ['X0Z0A0B0F6000.0', 'Y0']
@@ -105,3 +105,12 @@ def SATUTEST(apt):
 
 def SAVERE(apt):
     return 2, ['M45(SAVE RECORD)', 'G04X2']
+
+def SURFACE(apt):
+    num = re.search('\d+', apt).group()
+    if len(num) == 1:
+        enum = '0' + num
+
+    str_a = 'IF[#10{}EQ0]GOTOSURFACE{}'.format(enum, str(int(num)+1))
+    str_b = '#998={}'.format(num)
+    return 2, [' ', str_a, str_b]

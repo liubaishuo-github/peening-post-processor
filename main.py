@@ -80,7 +80,7 @@ txt = txt_connect(txt_temp)
 
 ppword_list = ['PPRINT', 'RAPID', 'FEEDOVER', 'FEDRAT', 'STOP', 'DWELL', 'AIR',\
                 'STEEL', 'GLASS', 'RECIPE', 'SPINDLE', 'SUBPROG', 'GOHOME',\
-                'INITIAL', 'SATUTEST', 'SAVERE']
+                'INITIAL', 'SATUTEST', 'SAVERE', 'SURFACE']
 
 pch = []
 last_zb = ['0', '0', '0', '0', '0']
