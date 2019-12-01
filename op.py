@@ -1,4 +1,4 @@
-import re
+import re, math
 
 
 #======global varible between moduals======
@@ -114,3 +114,33 @@ def SURFACE(apt):
     str_a = 'IF[#10{}EQ0]GOTOSURFACE{}'.format(enum, str(int(num)+1))
     str_b = '#998={}'.format(num)
     return 2, [' ', str_a, str_b]
+
+#the apt point cannot pass through the rotary table center point, or will lead wrong feedrate
+def cal_feed(apt, last_apt, feed, zb, last_zb):
+    x = apt[0] - 6*apt[3]
+    y = apt[1] - 6*apt[4]
+    z = apt[2] - 6*apt[5]
+
+    last_x = last_apt[0] - 6*last_apt[3]
+    last_y = last_apt[1] - 6*last_apt[4]
+    last_z = last_apt[2] - 6*last_apt[5]
+
+    # cal the distance between point to rotary table center
+    apt_X = math.sqrt(x*x + y*y)
+    last_apt_X = math.sqrt(last_x*last_x + last_y*last_y)
+
+    delta_x = apt_X - last_apt_X
+    delta_z = apt[2] - last_apt[2]
+
+    distance = math.sqrt(delta_x*delta_x + delta_z*delta_z)
+    time = distance / feed
+    print(time,feed,distance)
+    sum = 0
+    for i in range(0,5):
+        sum = sum + math.pow(zb[i]-last_zb[i], 2)
+
+    xyzab_distance = math.sqrt(sum)
+    #print(xyzab_distance)
+    feed_output = xyzab_distance / time
+    #print('-------------')
+    return feed_output
