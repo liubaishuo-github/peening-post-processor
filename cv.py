@@ -32,6 +32,10 @@ file.close
 txt_out = ['Y0F6000']
 
 for index, i in enumerate(txt_temp):
+    if len(re.findall('-?\d+\.\d+', i)) < 5:
+        txt_out.append(i.strip())
+        continue
+
     N_num = re.match('N\d+', i).group()
     point_before = re.findall('-?\d+\.\d+', i)[0:5]
     feed_old = re.findall('-?\d+\.\d+', i)[5]
