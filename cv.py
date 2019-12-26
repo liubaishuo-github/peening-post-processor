@@ -19,6 +19,9 @@ def cal_feed(zb_old, zb_old_last, zb_new, zb_new_last, feed_old):
     print(feed_new)
     return feed_new
 
+#=========================main=========================
+#=========================main=========================
+#=========================main=========================
 
 import os, re, math
 
@@ -37,14 +40,14 @@ for index, i in enumerate(txt_temp):
         continue
 
     N_num = re.match('N\d+', i).group()
-    point_before = re.findall('-?\d+\.\d+', i)[0:5]
+    zb_old = re.findall('-?\d+\.\d+', i)[0:5]
     feed_old = re.findall('-?\d+\.\d+', i)[5]
-    #print(point_before)
-    x0 = float(point_before[0]) - 30
-    y0 = float(point_before[1])
-    z0 = float(point_before[2])
-    a0 = float(point_before[3])
-    b0 = float(point_before[4])
+    #print(zb_old)
+    x0 = float(zb_old[0]) - 30
+    y0 = float(zb_old[1])
+    z0 = float(zb_old[2])
+    a0 = float(zb_old[3])
+    b0 = float(zb_old[4])
     #print(x0, y0, z0, a0, b0)
     x = -math.sqrt(x0*x0 + y0*y0) + 30
     y = 0
@@ -60,12 +63,12 @@ for index, i in enumerate(txt_temp):
         N_block = N_num + 'X' + str(round(x,4)) + \
             'Z' + str(round(z,4)) + 'A' + str(round(a,3)) + 'B' + str(round(b,3)) + 'F6000.0'
     else:
-        feed_new = cal_feed(point_before, zb_old_last, zb_new, zb_new_last, feed_old)
+        feed_new = cal_feed(zb_old, zb_old_last, zb_new, zb_new_last, feed_old)
         N_block = N_num + 'X' + str(round(x,4)) + \
             'Z' + str(round(z,4)) + 'A' + str(round(a,3)) + 'B' + str(round(b,3)) + 'F[' + str(round(feed_new,2)) + '/#100]'
 
     zb_new_last = [x, y, z, a, b]
-    zb_old_last = point_before
+    zb_old_last = zb_old
     txt_out.append(N_block)
 
 for i in txt_out:
