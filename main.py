@@ -12,7 +12,7 @@ def txt_connect(txt_before):  #connect the lines divided by $, and put into txt
             temp = temp + i.rstrip('$')
     return txt
 
-def op_goto(apt, last, feedratee, last_feedd, last_fedover):
+def op_goto(apt, last, feedratee, last_feedd, last_fedover, last_apt):
     pch_val = rotation_matrix.transf(*list(map(float,apt)),last[4])
     #print(pch_val)
     x = str(round(pch_val[0], 4))
@@ -46,13 +46,17 @@ def op_goto(apt, last, feedratee, last_feedd, last_fedover):
     else:
         str_b = ''
 
-    if feedratee == last_feedd and op.get_value('feed_over') == last_fedover:
-        str_f = ''
-    elif op.get_value('feed_over') == 'OFF':
-        str_f = 'F' + str(round(feedratee, 1))
-    elif op.get_value('feed_over') == 'ON':
-        str_f = 'F[' + str(round(feedratee, 1)) + '/#100]'
 
+    true_feed = op.cal_feed(list(map(float,apt)), list(map(float,last_apt)), feedratee, pch_val, list(map(float,last)))
+
+    #if feedratee == last_feedd and op.get_value('feed_over') == last_fedover:
+        #str_f = ''
+    if False:
+        pass
+    elif op.get_value('feed_over') == 'OFF':
+        str_f = 'F' + str(round(feedratee, 2))
+    elif op.get_value('feed_over') == 'ON':
+        str_f = 'F[' + str(round(true_feed, 2)) + '/#100]'
 
 
 
@@ -90,15 +94,18 @@ op.set_value('feed_over','OFF')
 last_feed = 6000.0
 feedrate = 6000.0
 last_fedover = 'OFF'
+last_apt = [-26.37, 0, 46.745, -1, 0, 0]
 for i in txt:
     if i[0:4] == 'GOTO':
         apt_point = re.findall('-?\d+\.\d+',i)
         #print(apt_point
-        temp = op_goto(apt_point, last_zb, feedrate, last_feed, last_fedover)
+        temp = op_goto(apt_point, last_zb, feedrate, last_feed, last_fedover, last_apt)
         pch.append(temp[0])
         last_zb = temp[1]
         last_feed = temp[2]
         last_fedover = temp[3]
+        #last_apt = copy.deepcopy(apt_point)
+        last_apt = apt_point
     for j in ppword_list:
         ppword_match_object = re.match(j,i)
         if ppword_match_object:
