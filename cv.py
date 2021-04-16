@@ -32,7 +32,7 @@ filename = rf"{dir}\cv_input.txt"
 file = open(filename, encoding='utf-8-sig')
 txt_temp = file.readlines()
 file.close
-txt_out = ['Y0F6000']
+txt_out = ['Y0F500']
 
 for index, i in enumerate(txt_temp):
     if len(re.findall('-?\d+\.\d+', i)) < 5:
