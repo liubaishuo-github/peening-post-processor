@@ -46,8 +46,8 @@ def op_goto(apt, last, feedratee, last_feedd, last_fedover, last_apt):
     else:
         str_b = ''
 
-
-    true_feed = op.cal_feed(list(map(float,apt)), list(map(float,last_apt)), feedratee, pch_val, list(map(float,last)))
+    if op.get_value('feed_over') == 'ON':
+        true_feed = op.cal_feed(list(map(float,apt)), list(map(float,last_apt)), feedratee, pch_val, list(map(float,last)))
 
     #if feedratee == last_feedd and op.get_value('feed_over') == last_fedover:
         #str_f = ''
