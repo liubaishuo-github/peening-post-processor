@@ -5,6 +5,7 @@ import re, math
 def _init():#初始化
     global _global_dict
     _global_dict = {}
+    _global_dict['standoff'] = 6.0
 
 def set_value(key,value):
     _global_dict[key] = value
@@ -18,6 +19,10 @@ def get_value(key):
 def FEDRAT(apt):
     set_value('feedrate',round(float(re.findall('\d+\.\d+', apt)[0]),1))
     #print(get_value('feedrate'))
+    return 0, ''
+
+def STANDOFF(apt):
+    set_value('standoff', round(float(re.findall('\d+\.\d+|\d+', apt)[0]),2))
     return 0, ''
 
 def RAPID(apt):
@@ -117,14 +122,18 @@ def SURFACE(apt):
 
 #the apt point cannot pass through the rotary table center point, or will lead wrong feedrate
 def cal_feed(apt, last_apt, feed, zb, last_zb):
-    x = apt[0] - 6*apt[3]
-    y = apt[1] - 6*apt[4]
-    z = apt[2] - 6*apt[5]
+
+    standoff = get_value('standoff')
+    #print(apt,'=====standoff:', standoff)
+
+    x = apt[0] - standoff*apt[3]
+    y = apt[1] - standoff*apt[4]
+    z = apt[2] - standoff*apt[5]
     #print(apt,':')
     #print(x,y,z)
-    last_x = last_apt[0] - 6*last_apt[3]
-    last_y = last_apt[1] - 6*last_apt[4]
-    last_z = last_apt[2] - 6*last_apt[5]
+    last_x = last_apt[0] - standoff*last_apt[3]
+    last_y = last_apt[1] - standoff*last_apt[4]
+    last_z = last_apt[2] - standoff*last_apt[5]
 
     # cal the distance between point to rotary table center
     apt_X = math.sqrt(x*x + y*y)
@@ -145,3 +154,13 @@ def cal_feed(apt, last_apt, feed, zb, last_zb):
     feed_output = xyzab_distance / time
     #print('-------------')
     return feed_output
+
+
+
+
+if __name__ == "__main__":
+    _init()
+    set_value('standoff', 9.3)
+    print(get_value("standoff"))
+    set_value('standoff', 6)
+    print(get_value("standoff"))
