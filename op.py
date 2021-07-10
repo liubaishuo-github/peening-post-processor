@@ -57,22 +57,23 @@ def AIR(apt):
     if re.search('ON',apt):
         a = ['M71 (AIR ON)', 'G04X5']
     elif re.search('OFF',apt):
-        a = ['M81 (AIR OFF)']
+        a = ['G04X5', 'M81 (AIR OFF)']
     return 2, a
 
 def STEEL(apt):
     if re.search('ON',apt):
         a = ['M52 (STEEL ON)', 'G04X5']
     elif re.search('OFF',apt):
-        a = ['M62 (STEEL OFF)', 'G04X5']
+        a = ['M62 (STEEL OFF)']
     return 2, a
 
 def GLASS(apt):
     if re.search('ON',apt):
         a = ['M51 (GLASS ON)', 'G04X5']
     elif re.search('OFF',apt):
-        a = ['M61 (GLASS OFF)', 'G04X5']
+        a = ['M61 (GLASS OFF)']
     return 2, a
+
 
 def RECIPE(apt):
     num = re.search('\d+', apt).group()
