@@ -78,7 +78,7 @@ def GLASS(apt):
 def RECIPE(apt):
     num = re.search('\d+', apt).group()
     a = ['#999={}(SET RECIPE NUMBER)'.format(num), 'G04X1', \
-        'M43(CHANGE RECIPE NUMBER)', 'G04X3']
+        'M43(CHANGE RECIPE NUMBER)', 'G04X6']
     return 2, a
 
 def SPINDLE(apt):
